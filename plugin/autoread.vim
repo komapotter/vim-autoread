@@ -113,10 +113,13 @@ function! WatchForChanges(bufname, ...)
   let msg = "\n"
 
   " Check to see if the autocommand already exists
+  let lang_bak = v:lang
+  language C
   redir @"
     silent! exec 'au '.id
   redir END
   let l:defined = (@" !~ 'E216: No such group or event:')
+  execute 'language' lang_bak
 
   " If not yet defined...
   if !l:defined
@@ -180,4 +183,3 @@ function! WatchForChanges(bufname, ...)
 endfunction
 
 autocmd VimEnter * WatchForChangesAllFile! 
-
